@@ -261,3 +261,27 @@ JDBC API사용<br>
 <br>
 </div>
 </details>
+
+# JPQL
+---
+<details>
+<summary>JPQL에 대해 설명해주세요</summary>
+<div markdown="8">
+  <br>
+ 엔티티를 대상으로 쿼리하는 객체지향쿼리예요. JPQL을 JPA에 의해 결국 SQL로 변환돼요<br>
+  SQL을 추상화하기 때문에 DBMS에 의존적이지않아요
+<br>
+</div>
+</details>
+
+<details>
+<summary>페치조인과 일반조인의 차이</summary>
+<div markdown="8">
+  <br>
+ 페치조인: 연관관계를 불러오는것<br>
+  일반조인: sql결과문에 추가시키는것<br>
+  - jpql은 결과를 반환할때 연관관계를 고려하지 않는다. 그래서 일반조인의 경우 team을조회했을때 team의 멤버변수인 members까지 조회해오지 않는것이다
+<br>
+</div>
+</details>
+
