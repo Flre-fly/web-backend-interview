@@ -100,3 +100,164 @@ HTTP는 연결상태를 유지하지 않는 비연결성 프로토콜입니다. 
 이 문제를 해결할 수 있다 <br>
 </div>
 </details>
+
+# JPA
+---
+<details>
+<summary>JDBC란</summary>
+<div markdown="8">
+  <br>
+  자바애플리케이션과 디비의 통신을 가능하게 해주는 API
+<br>
+</div>
+</details>
+
+<details>
+<summary>JDBC와 MyBatis의 차이</summary>
+<div markdown="8">
+  <br>
+JDBC한 파일에서는  SQL작성, DB연결, Java언어가 모두 존재하기때문에 재사용성이 좋지 않다. 하지만 마바는 SQL문과 자바언어를 분리한다
+<br>
+JDBC에서는 매번 파라미터 매핑을 해줬어야하는데 마바에서는 자동으로해준다
+<br>
+</div>
+</details>
+
+<details>
+<summary>직렬화와 역직렬화 차이</summary>
+<div markdown="8">
+  <br>
+  직렬화: 객체를 전송가능한 연속적인 데이터로 만드는것<br>
+  역직렬화: 연속적인데이터 -> 객체 변환
+<br>
+</div>
+</details>
+
+<details>
+<summary>데이터베이스와 자바의 패러다임의 차이에 대해 설명해주세요</summary>
+<div markdown="8">
+  <br>
+  1. 상속구현방법<br>
+  - 자바는 객체지향패러다임을 이용해서 상속을 구현합니다. 하지만 디비에는 이러한 상속개념이 없죠. <br>
+  - 자바에서는 우리가 배웠던 방식대로 상속을 하면된다. <br>하지만 디비에서는 상속의 개념이 없다. 예를들어 상속을 하려면
+한테이블에 모두 데이터를 몰아넣는방식이나 여러 테이블을 둬서 하나의 데이터를 저장할때 상속관계인 테이블 각각에 insert쿼리를 날리는
+불편한 작업을 해야한다.<br>이건 jdbc를 쓸때의 애기고 jpa를 만약 사용한다면 save메서드하나로 상속관계인 테이블 각각에 insert쿼리를 알아서 날려줄 수 있다<br>
+즉, 개발자는 save메서드만 호출하고 jpa가 알아서 insert쿼리를 만들어서 디비로 요청을 보낸다는것이다. 그게 가능하다<br>
+  2. 참조<br>
+  - 자바에서는 객체를 참조할 수 있습니다. 디비는 fk로 참조를 대신합니다<br>
+  - 자바에서의 객체는 참조를 통해서 연관관계에 있는 객체를 조회하고 탐색한다.<br>
+반면에 디비의 테이블은 외래키를 사용하여 다른테이블과 연관관계를 맺고 조인을 사용해서 연관된 테이블을 조회할 수 있따<br>
+우리가 디비의 패러다임에 맞춰서 id값을 필드로 저장하게되면 작성할땐 편리하지만 참조를 이용해야할땐 불편하다<br>
+id값으로 조회를 매번 해와야하기 때문이다. 이러게 되면 객체지향적인 코드라고 할 수 없다<br>
+그렇다고 id값이 아닌 team이라는 entity자체를 필드에 넣기에는 디비에 넣을때마다 매번 getid를 해주어야한다.<br>
+참조에서도 패러다임의 불일치가발생하고 있다. 이를 해결해주는 것이 jpa다. <br>
+  3. 비교<br>
+  - 객체는 마음껏 객체그래프를 탐색할 수 있어야하는데 쿼리문에 따라서 그 객체가 있을수도있고 없을 수도 있어요
+그래서 마음껏 객체 그래프를 탐색하는게 힘들어요 그 값이 있을지 없을지 모르니까요<br>
+  4. 객체그래프탐색<br>
+  - 디비에서는 식별자로 각 row를 구분하는데 자바에서는 동등성, 동일성비교를 할 수 있어요
+<br>
+</div>
+</details>
+
+<details>
+<summary>JPA, ORM에 대해 설명해보세요</summary>
+<div markdown="8">
+  <br>
+  - 마바까지 섞어서 얘기해보자면, 마바는 쿼리문의 결과를 객체에 매핑하는 sql mapper의 기술의 예고 jpa는 테이블을 객체에 매핑시키는 orm기술의 예예요<br>
+  - 위에서 얘기했던 패러다임의 불일치 문제를 개발자 대신 해결해주는게 orm입니다<br>
+<br>
+</div>
+</details>
+
+<details>
+<summary>식별과 비식별의 차이, 장단점</summary>
+<div markdown="8">
+  <br>
+  식별: 부모의 pk를 fk로 사용하는것<br>
+  비식별: 부모의 pk를 자신의 pk로도 사용하는것<br>
+  식별관계는 조인할때 키의 수가 늘어나니까 복잡해진다. 그리고 식별관계를 구현하려면 번거롭다. 하지만 특정상황에서 조인없이 탐색할 수 있다 예를들면 부모id값이 2 인 모든 자식 조회하는일
+<br>
+</div>
+</details>
+
+<details>
+<summary>변경감지가 일어나면 무슨일이 일어나나요?</summary>
+<div markdown="8">
+  <br>
+  1. flush()메서드가 호출되면 .. <br>
+  2. 스냅샷과 비교하여 달라진 부분은 쓰기지연저장소로 보낸다 <br>
+  3. 디비에 flush한다 <br>
+  4. 디비에 commit한다 <br>
+  - flush:쓰기지연저장소에 있는 것들을 디비에 반영한다는 얘기. 하지만 commit까지 완료가 돼야 디비에 완전히 반영됨<br>
+<br>
+</div>
+</details>
+
+<details>
+<summary>em.persist후 jpa가 무슨일을 해주나요?</summary>
+<div markdown="8">
+  <br>
+ entity분석<br>
+sql문 작성<br>
+JDBC API사용<br>
+페러다임불일치해결<br>
+<br>
+</div>
+</details>
+
+<details>
+<summary>스프링에서 프록시가 어떻게 활용되나요?</summary>
+<div markdown="8">
+  <br>
+  프록시 객체는 가짜객체를 의미합니다. 매번 연관된객체를 불러오는것보다 실제사용시점까지 불러오는것을 미루면 성능상 이점이 있습니다.<br>
+<br>
+</div>
+</details>
+
+<details>
+<summary>em.find와 em.reference는 무슨차이가 있나요?</summary>
+<div markdown="8">
+  <br>
+ em.find:메서드 호출하자마자 디비에 조회쿼리날림 <br>
+ em.reference:사용시점에 디비에 쿼리날림
+<br>
+</div>
+</details>
+
+<details>
+<summary>em.reference가 호출될때 무슨일이 일어나나요?</summary>
+<div markdown="8">
+  <br>
+ db를 조회하지도, 실제 엔티티객체를 생성하지도 않는다. 실제 엔티티객체를 상속받은 프록시 객체를 만들 뿐이다.
+<br>
+</div>
+</details>
+
+<details>
+<summary>em.reference로 찾은 엔티티에 대해 참조를 하면 무슨일이 일어나나요?</summary>
+<div markdown="8">
+  <br>
+ 1. 영속성컨텍스트에 초기화요청
+ 2. 영속성컨텍스트에 없다면 디비로 요청해서 초기화해와서 실제 엔티티객체를 생성해온다 
+<br>
+</div>
+</details>
+
+<details>
+<summary>em.reference하고 얻은 엔티티에 대해 getId를 했는데 초기화가 안일어나 왜그러지?</summary>
+<div markdown="8">
+  <br>
+ id는 프록시 객체도 기억하고 있다. 그래서 초기화가 일어나지않는다 그래서 연관관계 설정할땐 id값만 필요하니 이땐 초기화과정이 필요가 없다
+<br>
+</div>
+</details>
+
+<details>
+<summary>jpa의 영속성 전이에 대해 설명해주세요</summary>
+<div markdown="8">
+  <br>
+ flush시 영속성 전이가 일어납니다. 그래서 연관되어있다면각각에 대해 쿼리를 만들어서 jpa가 디비에 대신 요청해줍니다
+<br>
+</div>
+</details>
